@@ -60,6 +60,20 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
+    .about-btn {
+      flex-shrink: 0;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--bg3);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.15s, background 0.15s;
+      margin-left: auto;
+    }
+    .about-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
     .nav-search {
       flex: 1;
       display: flex;
@@ -70,7 +84,6 @@
       padding: 7px 14px;
       gap: 8px;
       max-width: 380px;
-      margin-left: auto;
     }
     .nav-search i { color: var(--muted); font-size: 13px; }
     .nav-search input {
@@ -315,6 +328,7 @@
   <nav>
     <img src="images/logo.jpg" alt="logo">
     <h1>Delta Math</h1>
+    <a href="/About.html" class="about-btn">About</a>
     <div class="nav-search">
       <i class="fas fa-search"></i>
       <input type="text" placeholder="Search games..." id="searchInput" aria-label="Search games">
@@ -510,7 +524,7 @@
       {name:"Soccer Random",       href:"games/soccer-random/",              img:"games/soccer-random/soccer-random.webp",         cat:"sports"},
       {name:"Volley Random",       href:"games/volley-random/",              img:"games/volley-random/volley-random.webp",         cat:"sports"},
       {name:"Boxing Random",       href:"games/boxing-random/",              img:"games/boxing-random/boxing-random.webp",         cat:"sports"},
-      {name:"Snowball.io",         href:"/snowball",                         img:"games/snowball.io/snowball.io.jpg",              cat:"io"},
+      {name:"Snowball.io",         href:"/snowball",                         img:"games/snowball.io/snowball.io.jpg",               cat:"io"},
       {name:"Parking Fury",        href:"games/pf1/",                        img:"games/pf1/pf1.png",                              cat:"racing"},
       {name:"Parking Fury 2",      href:"games/pf2/",                        img:"games/pf2/pf2.jpg",                              cat:"racing"},
       {name:"Tunnel Rush",         href:"games/tunnel-rush/",                img:"games/tunnel-rush/tunnel-rush.webp",             cat:"action"},
@@ -560,12 +574,11 @@
       {name:"Bumper Cars Soccer",  href:"/cars",                             img:"/cars/icon.png",                                 cat:"sports"},
       {name:"Curve Ball 3D",       href:"/curve",                            img:"/curve/icon.jpg",                                cat:"sports"},
       {name:"Tiny Fishing",        href:"/games/tiny-fishing",               img:"/games/tiny-fishing/iconTF.png",                 cat:"idle"},
-      {name:"BlackJack",        href:"/games/BlackJack",               img:"/games/BlackJack/Icon.png",                 cat:"card"},
+      {name:"BlackJack",           href:"/games/BlackJack",                  img:"/games/BlackJack/Icon.png",                      cat:"card"},
     ];
 
     /* ============================================================
-       DAILY STREAK — persisted with sessionStorage (no localStorage needed)
-       Uses the calendar date so it increments once per day max.
+       DAILY STREAK
     ============================================================ */
     (function initStreak() {
       const STREAK_KEY = 'dm_streak';
@@ -581,15 +594,14 @@
         if (last === yesterday.toDateString()) {
           streak = Math.min(streak + 1, 7);
         } else if (!last) {
-          streak = 1; // first ever visit
+          streak = 1;
         } else {
-          streak = 1; // streak broken, restart
+          streak = 1;
         }
         sessionStorage.setItem(STREAK_KEY, streak);
         sessionStorage.setItem(LAST_KEY, today);
       }
 
-      // Render dots
       const dotsEl = document.getElementById('streakDots');
       for (let i = 0; i < 7; i++) {
         const d = document.createElement('div');
@@ -597,7 +609,6 @@
         dotsEl.appendChild(d);
       }
 
-      // Update label
       document.getElementById('streakTitle').textContent =
         streak > 1 ? `🔥 ${streak}-day streak!` : 'Daily streak';
       document.getElementById('streakSub').textContent =
@@ -621,9 +632,7 @@
     }
 
     function renderGrid(list, container) {
-      container.innerHTML = list.length
-        ? list.map(makeTile).join('')
-        : '';
+      container.innerHTML = list.length ? list.map(makeTile).join('') : '';
     }
 
     function filterAndRender() {
